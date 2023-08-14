@@ -16,8 +16,8 @@ goenv-upgrade() {
         return 1
     else
         echo "upgrading goenv..."
-        cd "${GOENV_HOME}"
-        git pull
+        git -C "${GOENV_HOME}" pull
+
     fi
 }
 
