@@ -27,5 +27,12 @@ zsh-goenv-upgrade() {
 zsh-goenv-install
 
 # add goenv to path
-export PATH="${GOENV_ROOT}/bin:${GOENV_ROOT}/shims:${PATH}"
+path=("${GOENV_ROOT}/bin" "${GOENV_ROOT}/shims" $path)
+# set GOENV_GOPATH_PREFIX if empty
+if [[ -z "${GOENV_GOPATH_PREFIX}" ]]; then
+    export GOENV_GOPATH_PREFIX="${HOME}/.gopath"
+fi
 eval "$(goenv init -)"
+
+# add go to path
+export path=("$GOPATH/bin" $path)
