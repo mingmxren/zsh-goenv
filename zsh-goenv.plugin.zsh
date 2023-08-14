@@ -1,31 +1,31 @@
-GOENV_HOME="${${(%):-%x}:A:h}/goenv"
+GOENV_ROOT="${HOME}/.goenv"
+_zsh_goenv_repo="https://github.com/go-nv/goenv.git"
 
 goenv-install() {
-    echo "installing goenv..."
-    if [[ ! -d "${GOENV_HOME}" ]]; then
-        git clone "https://github.com/go-nv/goenv.git" "${GOENV_HOME}"
-    else
-        echo "goenv already installed"
-        return 1
+    if [[ ! -d "${GOENV_ROOT}" ]]; then
+        git clone "${_zsh_goenv_repo}" "${GOENV_ROOT}"
+    elif [[ ! -d "${GOENV_ROOT}/.git" ]]; then
+        git -C "${GOENV_ROOT}" init
+        git -C "${GOENV_ROOT}" remote add origin "${_zsh_goenv_repo}"
+        git -C "${GOENV_ROOT}" pull origin HEAD
     fi
 }
 
 goenv-upgrade() {
-    if [[ ! -d "${GOENV_HOME}" ]]; then
+    if [[ ! -d "${GOENV_ROOT}" ]]; then
         echo "goenv not installed"
         return 1
-    else
-        echo "upgrading goenv..."
-        git -C "${GOENV_HOME}" pull
-
     fi
+    if [[ ! -d "${GOENV_ROOT}/.git" ]]; then
+        echo "goenv not installed with git"
+        return 1
+    fi
+    echo "upgrading goenv..."
+    git -C "${GOENV_ROOT}" pull origin HEAD
 }
 
-if [[ ! -d "${GOENV_HOME}" ]]; then
-    goenv-install
-fi
+goenv-install
 
 # add goenv to path
-path+=( "${GOENV_HOME}/bin" )
-export GOENV_ROOT="$HOME/.goenv"
+path+=("${GOENV_ROOT}/bin")
 eval "$(goenv init -)"
