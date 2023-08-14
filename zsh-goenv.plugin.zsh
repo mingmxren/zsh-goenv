@@ -1,7 +1,7 @@
 GOENV_ROOT="${HOME}/.goenv"
 _zsh_goenv_repo="https://github.com/go-nv/goenv.git"
 
-goenv-install() {
+zsh-goenv-install() {
     if [[ ! -d "${GOENV_ROOT}" ]]; then
         git clone "${_zsh_goenv_repo}" "${GOENV_ROOT}"
     elif [[ ! -d "${GOENV_ROOT}/.git" ]]; then
@@ -11,7 +11,7 @@ goenv-install() {
     fi
 }
 
-goenv-upgrade() {
+zsh-goenv-upgrade() {
     if [[ ! -d "${GOENV_ROOT}" ]]; then
         echo "goenv not installed"
         return 1
@@ -24,8 +24,8 @@ goenv-upgrade() {
     git -C "${GOENV_ROOT}" pull origin HEAD
 }
 
-goenv-install
+zsh-goenv-install
 
 # add goenv to path
-path+=("${GOENV_ROOT}/bin")
+export PATH="${GOENV_ROOT}/bin:${GOENV_ROOT}/shims:${PATH}"
 eval "$(goenv init -)"
