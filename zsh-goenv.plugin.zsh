@@ -38,6 +38,6 @@ eval "$(goenv init -)"
 # add go to path
 if [[ "$GOPATH" != "" ]];then
     export path=("$GOPATH/bin" $path)
-else if [[ "$(go env GOPATH)" != "" ]];then
+elif [[ "$(go env GOPATH)" != "" ]];then
     export path=("$(go env GOPATH)/bin" $path)
 fi
