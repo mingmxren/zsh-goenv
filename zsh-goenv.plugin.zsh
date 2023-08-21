@@ -32,7 +32,12 @@ path=("${GOENV_ROOT}/bin" "${GOENV_ROOT}/shims" $path)
 if [[ -z "${GOENV_GOPATH_PREFIX}" ]]; then
     export GOENV_GOPATH_PREFIX="${HOME}/.gopath"
 fi
+
 eval "$(goenv init -)"
 
 # add go to path
-export path=("$GOPATH/bin" $path)
+if [[ "$GOPATH" != "" ]];then
+    export path=("$GOPATH/bin" $path)
+else if [[ "$(go env GOPATH)" != "" ]];then
+    export path=("$(go env GOPATH)/bin" $path)
+fi
