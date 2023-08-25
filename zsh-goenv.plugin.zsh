@@ -33,8 +33,6 @@ if [[ -z "${GOENV_GOPATH_PREFIX}" ]]; then
     export GOENV_GOPATH_PREFIX="${HOME}/.gopath"
 fi
 
-export GOENV_GOMOD_VERSION_ENABLE=1
-
 eval "$(goenv init -)"
 
 # add go to path
